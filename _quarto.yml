@@ -1,0 +1,33 @@
+project:
+  type: book
+
+book:
+  title: "ROS-Notebook"
+  author: "Harrie Jonkman and others"
+  date: "12/16/2023"
+  chapters:
+    - index.qmd
+    - part: "Fundamentals"
+      chapters:
+        - 01-chapter.qmd
+        - 02-chapter.qmd
+        - 03-chapter.qmd
+        - 04-chapter.qmd
+        - 05-chapter.qmd
+    - part: "Linear Regression"
+    - part: "Generalized Linear Models"
+    - part: "Causal Inference"
+    - part: "What comes next?"
+    
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

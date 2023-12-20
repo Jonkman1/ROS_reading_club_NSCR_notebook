@@ -1,0 +1,5 @@
+---
+title: "Fundamentals"
+---
+
+This part gives access to the tools of mathematics, statistics, and computing necessary to work with regression models.

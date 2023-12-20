@@ -1,0 +1,81 @@
+---
+title: "Some basic methods in mathematics and probability"
+author: " X Y (Chair)"
+format:
+  html: 
+    grid: 
+      margin-width: 350px
+  pdf: default
+reference-location: margin
+citation-location: margin
+---
+
+## Summary
+
+Simple methods from introductory mathematics and probability have three important roles in regression modelling. \
+- Linear algebra and simple probability distributions are the building blocks for elaborate models. \
+- It is useful to understand the basic ideas of inference separately from the details of particular class of model. \
+- It is often useful in practice to construct quick estimates and comparisons for small parts of a problem - before fitting an elaborate model, or in understanding the output from such a model.\
+This chapter provides a quick review of some of these basic ideas.
+
+First some ideas from algebra are presented:
+- *Weighted averages* are used to adept to a target population (for eg. the average age of all North American as a weighted average). \
+- *Vectors* are used to represent a collection of numbers and *matrices* are used to represent a collection of vectors. \
+- To use linear regression effectively, you need to understand the algebra and geometry of straight *lines*, with the intercept and the slope. 
+- To use *logarithmic* and *log-log relationships* for exponential and power-law growth and decline.
+
+Here an example of a regression line.
+
+```{r, message=FALSE, warning=FALSE}
+#| label: fig:regression-lines
+#| column: margin
+#
+library(tidyverse)
+library(patchwork)
+# Thanks Solomon Kurz 
+# set the global plotting theme
+theme_set(theme_linedraw() +
+            theme(panel.grid = element_blank()))
+
+a <- 0
+b <- 1
+
+# left
+p1 <-
+  tibble(x = 0:2) %>% 
+  mutate(y = a + b * x) %>%
+  
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.05)), breaks = 0:2) +
+  scale_y_continuous(breaks = 0:2, labels = c("a", "a+b", "a+2b")) +
+  labs(subtitle = expression(y==a+bx~(with~b>0)))
+
+b <- -1
+
+# right
+p2 <-
+  tibble(x = 0:2) %>% 
+  mutate(y = a + b * x) %>%
+  
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.05)), breaks = 0:2) +
+  scale_y_continuous(breaks = 0:-2, labels = c("a", "a+b", "a+2b")) +
+  labs(subtitle = expression(y==a+bx~(with~b<0)))
+
+# combine with patchwork
+library(patchwork)
+
+p1 + p2
+```
+
+
+
+*Probabilistic distributions* are used in regression modeling to help to characterize the variation that remains *after* predicting the average. These distributions allow us to get a handle on how uncertain our predictions are and, additionally, our uncertainty in the estimated parameters of the model. *Mean* (expected value), *variance* (mean of squared difference from the mean), and *standard deviation* (square root of variance) are the basic concepts of probability distributions.
+
+Normal distribution, binomial distribution, and Poisson distribution and Unclassified probability distributions are types of probability distributions presented here. They will be worked out in detail in the following chapters.
+
+In regression we typically model as much of the data variation as possible with a *deterministic* model, with a probability distribution included to capture the *error*, or unexplained variation. Distributions can be used to compare using such as the mean, but also to look at shifts in quantiles for example. Probability distributions can also be used for predicting new outcomes.
+
+## Presentation

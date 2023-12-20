@@ -1,0 +1,20 @@
+# The Reading Club {.unnumbered}
+
+
+![](img/ROS_front)
+
+<br>
+
+This is a Notebook around **Regression and Other Stories** by Andrew Gelman, Jennifer Hill, and Aki Vehtari. The book is available at <https://avehtari.github.io/ROS-Examples/>. The notesbook is available at <https://github.com/Jonkman1/Regression_reading_club_NSCR>. 
+
+This Notebook is part of the **NSC-R Workshops**. The NSC-R Workshops is a series of one-hour online instructional sessions to support participants in developing their data science skills in R, and to promote open science principles. The NSC-R workshop meetings are organized by a team mostly affiliated with the Netherlands Institute for the Study of Crime and Law Enforcement (NSCR), but they are open to everyone, regardless of affiliation or skill level.
+
+There are workshops on specific topics and Tidy Tuesday workshops that cover more basic skills and materials. A collection of these latter workshop materials have been brought together by Harrie Jonkman in a single document that you can find [here](https://ttbook.netlify.app/).
+
+Starting November 2023 we are transforming the workshops on specific topics into a reading group, where we explore the world of data analysis using the book *Regression and Other Stories* by Gelman, Hill and Vehtari as a source of inspiration. Click [here](https://nscrweb.netlify.app/posts/2023-11-14-nsc-r-workshop-ros/) for more information.
+
+In this Notebook you find short summaries of the chapters of the ROS-book and presentations of these chapters by different chairs. The content of the Notebook will grow over time. 
+
+# Materials {.unnumbered}
+- [Here](https://users.aalto.fi/~ave/ROS.pdf) you find the book.
+- [Here](https://avehtari.github.io/ROS-Examples/examples.html) you find background information and syntaxes.

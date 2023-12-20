@@ -1,0 +1,636 @@
+---
+title: "Overview"
+author: "Alex Trinidad (Chair)"
+format:
+  html: 
+    grid: 
+      margin-width: 350px
+  pdf: default
+reference-location: margin
+citation-location: margin
+---
+
+## Summary
+
+This firstnchapter lays out the key challenges of statistical inference in general and regression modeling in particular.
+
+::: column-margin
+Inference defined as using mathematical models to make general claims from particular data
+:::
+
+There are three challenges to statistics, which all can be framed as problems of prediction:\
+- Generalizing from sample to population;\
+- Generalizing from treatment to control group;\
+- Generalizing from observed measurements to the underlying construct of interest.
+
+The key skills you learn in this book are: \
+- Understanding regression models;\
+- Constructing regression models;\
+- Fitting regression models to data;\
+- Displaying and interpreting the results of regression models;
+
+Regression is a method that allows researchers to summarize how predictions or average values of an *outcome* vary across individuals defined by a set of *predictors*. It is used for example to predict, to explore associations, to extrapolate and for causal inference. Exmaples are given.
+
+There are four steps in statistical analysis: \
+- Model building (starting);\
+- Model fitting;\
+- Understanding model fits;\
+- Criticism.
+
+Fitting models and making predictions can be down different frameworks. Three concerns are important everytime: 
+- Information used;\
+- Assumptions used;\
+- Estimating and interpreting (classical or Bayesian framework).
+
+Gelman et all. recommend to use the Bayesian framework. If information available you can use it, if not you can use weakly informative default priors. On this way you stable estimates and with the simulations you can express uncertainty.
+
+The overall Bayesian regression in R is:
+
+:::{.panel-tabset}
+
+## rstanarm
+
+
+```         
+fit<-stan_glm(y~x,data=mydata)
+```
+
+::: column-margin
+Bayes can take longer time. Here you can use
+
+```         
+fit<-stan_glm(y~x,data=mydata,algorithm="optimizing")
+```
+:::
+
+## brms
+```
+fit<-brm(y~x,data=mydata)
+```
+
+:::
+
+
+
+Where y is the outcome, x is the predictor and mydata is the data frame. But you can do it also in classical framework:
+
+```         
+fit<-lm(y~x,data=mydata)
+```
+
+Using Bayesian and simulation approaches can be more important when fitting multilevel or regularized regression models. This will be handled in their next book.
+
+## Presentation
+
+First some libraries are loaded.
+
+```{r warning=FALSE, message=FALSE}
+library(rosdata) # for the ROSdata
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(rstanarm) # for the stan_glm function
+library(brms) # for the brm function
+```
+
+
+
+## Presentation
+On 14-11-2023 Alex Trinidad (University of Cologne and Netherlands Institute for the Study of Crime and Law Enforcement) presented the first chapter of the book *Regression and Other Stories* by Andrew Gelman, Jennifer Hill, and Aki Vehtari: **Overview**. The session was held online via Zoom.
+[Here]() you can find Alex' script Trinidad.
+
+First he loaded this package.
+
+```{r message=FALSE, warning=FALSE}
+#| label: load-packages
+
+library(tidyverse)
+```
+
+
+
+1. Regression to predict 
+
+How can we predict presidential vote share using economy growth? For this he loaded the ROS-data.
+
+```{r}
+#| label: load-data1
+
+elections_data <- read.csv(url("https://raw.githubusercontent.com/avehtari/ROS-Examples/master/ElectionsEconomy/data/hibbs.dat"), sep = "")
+
+```
+
+This another way to load these data.
+
+```{r}
+#| label: load-data2
+
+remotes::install_github("avehtari/ROS-Examples", subdir = "rpackage")
+elections_data <- rosdata::hibbs
+```
+
+
+Let us first explore economy growth.
+
+```{r}
+#| label: explore-data
+
+glimpse(elections_data)
+```
+Try the view-function yourself.
+
+```{r}
+# View(elections_data)
+```
+
+Use visualization to understand the data.
+
+```{r}
+#| label: plot-data1
+#| fig.cap: "Predicting elections from the economy 1952-2016"
+#| column: margin
+
+ggplot(data = elections_data) +
+  geom_point(aes(x = year, y = growth))
+
+```
+
+Add a line to the plot.
+
+```{r message=FALSE, warning=FALSE}
+#| label: plot-data2
+#| fig.cap: "Predicting elections from the economy 1952-2016 with line"
+#| column: margin
+
+ggplot(data = elections_data) +
+  geom_point(aes(x = year, y = growth)) +
+  geom_smooth(aes(x = year, y = growth), se = FALSE)
+```
+
+Add the CI around the line.
+
+```{r message=FALSE, warning=FALSE}
+#| label: plot-data3
+#| fig.cap: "Predicting elections from the economy 1952-2016 with line and confidence interval"
+#| column: margin
+
+ggplot(data = elections_data) +
+  geom_point(aes(x = year, y = growth)) +
+  geom_smooth(aes(x = year, y = growth), se = TRUE)
+```
+
+Fit ols-regression to obtain the predicted values.
+
+```{r}
+#| label: fit-ols
+
+mod1 <- lm(vote ~ growth, data = elections_data)
+```
+
+Summarize the regression results.
+
+```{r}
+#| label: summary-ols
+
+summary(mod1)
+```
+
+Plot the predicted values.
+
+```{r}
+#| label: plot-predicted
+#| column: margin
+#| fig.cap: "Predicting elections from the economy 1952-2016 with line"
+
+plot(elections_data$growth, elections_data$vote, xlab = "Economic Growth", ylab = "Vote Share")
+abline(coef(mod1), col = "red")
+```
+Predicted values with ggplot.
+
+```{r}
+#| label: plot-predicted2
+#| column: margin
+  
+ggplot(data = elections_data) +
+  geom_point(aes(x = growth, y = vote)) +
+  geom_abline(intercept = mod1[[1]][[1]], slope = mod1[[1]][[2]], color = "red", size = 1) +
+  scale_x_continuous(labels = scales::label_percent(accuracy = 1, scale = 1)) + 
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1, scale = 1)) + 
+  geom_hline(yintercept = 50) +
+  labs(title = "Data and linear fit",
+       x = "Average recent growth in personal income",
+       y = "Incumbent party's vote share")
+```
+
+Predicted values with ggplot and geom_smooth.
+
+```{r message=FALSE, warning=FALSE}
+#| label: plot-predicted3
+#| column: margin
+
+ggplot(data = elections_data) +
+  geom_point(aes(x = growth, y = vote)) +
+  geom_smooth(method = "lm", aes(x = growth, y = vote), color = "blue", size = 1) +
+  scale_x_continuous(labels = scales::label_percent(accuracy = 1, scale = 1)) + 
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1, scale = 1)) + 
+  geom_hline(yintercept = 50) +
+  labs(title = "Data and linear fit",
+       x = "Average recent growth in personal income",
+       y = "Incumbent party's vote share")
+```
+
+2. Sketching regression 
+
+Original $y = 46.3 + 3.0 x$. Explore the descriptive stats to get some parameters based on the observed data.
+
+```{r}
+#| label: descriptive-stats
+
+elections_data |> 
+  summarise(min_growth = min(growth),
+            max_growth = max(growth),
+            mean_growth = mean(growth),
+            sd_growth = sd(growth),
+            min_vote = min(vote),
+            max_vote = max(vote),
+            mean_vote = mean(vote),
+            sd_vote = sd(vote))
+```
+
+Simulating the data (technique often used in this book).
+
+```{r}
+#| label: simulate-data
+set.seed(123)
+N <- 16
+simu_growth <- runif(N, -0.39, 4)
+simu_vote <- rnorm(N, 46.2476  + 3.0605*simu_growth, 3.763)
+simu_elections <- data.frame(N,simu_growth, simu_vote)
+```
+
+Model the simulated data.
+
+```{r}
+#| label: model-simulated
+simu_mod <- lm(simu_vote ~ simu_growth, data = simu_elections)
+```
+
+Summarize the model.
+
+```{r}
+#| label: summary-simulated
+summary(simu_mod)
+```
+
+Plot the simulated data using base graphics.
+
+```{r}
+#| label: plot-simulated
+#| column: margin
+#| fig.cap: "Simulated Data and linear fit"
+
+# Base graphic
+plot(simu_elections$simu_growth, simu_elections$simu_vote, xlab = "Simulated Economic Growth", ylab = "Simulated Vote Share")
+abline(coef(simu_mod), col = "blue")
+```
+
+Plot the samen using ggplot version.
+
+```{r message=FALSE, warning=FALSE}
+#| label: plot-simulated2
+#| column: margin
+ 
+ggplot(data = simu_elections) +
+  geom_point(aes(x = simu_growth, y = simu_vote)) +
+  geom_smooth(method = "lm", aes(x = simu_growth, y = simu_vote), color = "blue", size = 1) +
+  scale_x_continuous(labels = scales::label_percent(accuracy = 1, scale = 1)) + 
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1, scale = 1)) + 
+  geom_hline(yintercept = 50) +
+  labs(title = "Simulated Data and linear fit",
+       x = "Simulated Average recent growth in personal income",
+       y = "Simulated Incumbent party's vote share")
+```
+
+Exercise 1.2(a) from ROS for sketching a regression model and data. 
+
+a) $y = 30 + 10x$  (residual $sd 3.9$) & values of X ranging from $0-4$ 
+
+Define the data.
+
+```{r}
+#| label: exercise-1.2
+
+set.seed(123)
+N <- 50
+x <- runif(N, 0, 4)
+y <- rnorm(N, 30 + 10*x, 3.9)
+data <- data.frame(N, x, y)
+```
+
+Model the data.
+
+```{r}
+#| label: exercise-1.2-model
+lm_a <- lm(y ~ x, data)
+```
+
+Plot the data.
+
+```{r}
+#| label: exercise-1.2-plot
+#| column: margin
+#| fig.cap: "Exercise 1.2 from ROS"
+
+plot(data$x, data$y, xlab = "X Value", ylab = "Y value")
+abline(coef(lm_a), col = "red", size = 1)
+```
+
+b) $y = 30 + 10x$  (residual $sd 10$) & values of X ranging from $0-4$. 
+
+Define the data.
+
+```{r}
+#| label: exercise-1.2b
+
+set.seed(123)
+N <- 50
+x <- runif(N, 0, 4)
+y <- rnorm(N, 30 + 10*x, 10)
+data <- data.frame(N, x, y)
+```
+
+Model it.
+
+```{r}
+#| label: exercise-1.2b-model
+
+lm_b <- lm(y ~ x, data)
+```
+
+Plot it.
+
+```{r}
+#| label: exercise-1.2b-plot
+#| column: margin
+#| fig.cap: "Continuous predictor"
+
+plot(data$x, data$y, xlab = "X Value", ylab = "Y value")
+abline(coef(lm_b), col = "blue")
+```
+
+Now simulate a binary predictor [example from the Aki Vehtari GH](https://avehtari.github.io/ROS-Examples/SimpleCausal/causal.html)
+
+See Figure 1.5 (page 10).
+
+```{r}
+#| label: binary-predictor
+
+set.seed(1411)
+N <- 50
+x <- runif(N, 0, 4)
+y <- rnorm(N, 30 + 10*x, 10)
+x_binary <- ifelse(x < 3, 0, 1)
+data_simu <- data.frame(N, x, y, x_binary)
+```
+
+Model it.
+
+```{r}
+#| label: binary-predictor-model
+
+lm_binary <- lm(y ~ x_binary, data = data_simu)
+```
+
+Summarize the model.
+
+```{r}
+#| label: binary-predictor-summary
+summary(lm_binary)
+```
+
+Plot the relationship.
+
+```{r}
+#| label: binary-predictor-plot
+#| column: margin
+#| fig.cap: "Binary predictor"
+
+ggplot(data = data_simu) +
+  geom_point(aes(x = x_binary, y = y)) +
+  geom_abline(intercept = lm_binary[[1]][[1]], slope = lm_binary[[1]][[2]],
+              color = "blue", size = 1) +
+  labs(y = "Crime reduction", 
+       x =  NULL) +
+  scale_x_continuous(breaks = c(0,1),
+                     labels = c("Control", "Treatment")) +
+  annotate(geom = "text", x = 0.50, y = 40,
+           label = paste("Estimated treatment effect is\nslope of fitted line: ",
+                         round(lm_binary[[1]][[2]], digits = 2)))
+```
+
+Non-linear relationship 
+
+```{r}
+#| label: non-linear
+
+set.seed(1411)
+x <- runif(N, 1, 7)
+y <- rnorm(N, 7 + 30*exp(-x), 2)
+data_simu$y <- y
+```
+
+Fit the model. 
+
+```{r}
+#| label: non-linear-model
+
+lm_nonlinear <- lm(y ~ x, data = data_simu)
+```
+
+Summarize the model.
+
+```{r}
+#| label: non-linear-summary
+
+summary(lm_nonlinear)
+```           
+
+Plot the model outcome.
+
+```{r message=FALSE, warning=FALSE}
+#| label: non-linear-plot
+#| column: margin
+#| fig.cap: "Non-linear relationship"
+
+ggplot(data = data_simu) +
+  geom_point(aes(x = x, y = y)) +
+  geom_smooth(method = "loess", aes(x = x, y = y), color = "blue", size = 1, se = FALSE) +
+  labs(y = "Theft counts per hour", 
+       x =  "Hours of foot patrol")  
+```
+
+## More examples
+First look at dataset to predict US-elections (1952-2021) from the economy and explore data.
+
+```{r}
+data("hibbs")
+glimpse(hibbs)
+```
+
+Replicate the plot of Figure 1.1.
+
+```{r}
+#| label: fig:hibbs
+#| fig-cap: "Predicting elections from the economy 1952-2016"
+#| column: margin
+
+ggplot(data = hibbs,
+       mapping = aes(x = growth, y = vote)) +
+  # geom_label(mapping = aes(label = year), nudge_x = 0.3, fill = NA, size = 3) +
+  geom_point() 
+
+```
+
+Now run the first regression model using `stanarm` or `brms`. This simulation works with four chains and 2000 iterations per chain. 
+
+:::{.panel-tabset}
+
+## rstanarm
+
+```{r}
+M1 <- stan_glm(vote ~ growth, data=hibbs)
+```
+
+M1 is set on your computer and you can give a summary of this regression model.
+
+```{r}
+M1
+```
+
+Or print the intercept (46.26) and the slope (3.05) of this model.
+
+```{r}
+coef(M1)
+```
+
+
+## brms
+
+```{r}
+M2 <- brm(vote ~ growth, data=hibbs)
+```
+
+M2 is set on your computer and you can give a summary of this regression model.
+
+```{r}
+M2 <-
+  brm(data = hibbs,
+      vote ~ growth,
+      cores = 4, chains = 4, iter = 2000,
+      seed = 123)
+
+
+```
+
+```{r}
+M2
+```
+
+
+
+:::
+
+Now add line to plot.
+
+```{r}
+#| label: fig:hibbs2
+#| fig-cap: "Predicting elections from the economy 1952-2016"
+#| column: margin
+#| 
+ggplot(data = hibbs,
+       mapping = aes(x = growth, y = vote)) +
+  geom_point() +
+  geom_abline(slope     = coef(M1)[["growth"]],
+              intercept = coef(M1)[["(Intercept)"]]) 
+```
+
+
+We also looked at the peacekeeping data (1.3). First open the data.
+
+
+```{r warning=FALSE, message=FALSE}
+peace_df <- read_csv("~/Desktop/WERK/Gelman/reading_club_GIT/Reading_club_Git/ROS-Examples-master/Peacekeeping/data/minidata.csv")
+```
+
+Explore this dataset now.
+
+```{r}
+glimpse(peace_df)
+```
+
+Create date measure. It's actually the same as delay.
+
+```{r}
+peace_df <- peace_df |>
+  mutate(time_diff = (faildate-cfdate)/365)
+```
+
+Let us plot it ...
+
+```{r}
+#| label: fig:peace
+#| fig-cap: "Outcomes after civil war in countries with and without UN-peacekeepers"
+#| column: margin
+
+# Harrie: not working
+# peace_df |>
+#  ggplot(data = .) +
+#  geom_histogram(mapping = aes(x = delay), bins = 10) +
+#  facet_wrap(~`peacekeepers?`) 
+```
+
+... or put it in a scatterplot.
+
+```{r}
+#| label: fig:peace2
+#| fig-cap: "Outcomes after civil war in countries with and without UN-peacekeepers"
+#| column: margin
+
+ggplot(data = peace_df) +
+  geom_point(mapping = aes(y = delay,
+                           colour = as.factor(`censored?`),
+                           x = badness,
+                           )) +
+  facet_wrap(~`peacekeepers?`) 
+```
+
+Means.
+
+```{r warning=FALSE, message=FALSE}
+peace_df |> 
+  group_by(`peacekeepers?`, `censored?`) |> 
+  summarise(mean_badness = mean(badness, na.rm = TRUE))
+```
+
+Simple causal graph for reproducibility of simulated data.
+
+```{r}
+SEED <- 1151
+set.seed(SEED)
+N <- 50
+x <- runif(N, 1, 5)
+y <- rnorm(N, 10 + 3*x, 3)
+x_binary <- ifelse(x<3, 0, 1)
+causal_df <- data.frame(N, x, y, x_binary)
+```
+
+Plot this.
+
+```{r}
+#| label: fig:causal
+#| fig-cap: "Causal graph of simulated data"
+#| column: margin
+#| 
+ggplot(data = causal_df) +
+  geom_point(mapping = aes(y = y, x = x)) 
+```
