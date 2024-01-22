@@ -12,7 +12,7 @@ citation-location: margin
 
 ## Summary
 
-This firstnchapter lays out the key challenges of statistical inference in general and regression modeling in particular.
+This first chapter lays out the key challenges of statistical inference in general and regression modeling in particular.
 
 ::: column-margin
 Inference defined as using mathematical models to make general claims from particular data
@@ -559,7 +559,7 @@ We also looked at the peacekeeping data (1.3). First open the data.
 
 
 ```{r warning=FALSE, message=FALSE}
-peace_df <- read_csv("~/Desktop/WERK/Gelman/reading_club_GIT/Reading_club_Git/ROS-Examples-master/Peacekeeping/data/minidata.csv")
+peace_df <- read_csv("~/Desktop/WERK/Gelman/ROS-book/ROS-book/ROS-Examples-master/Peacekeeping/data/minidata.csv")
 ```
 
 Explore this dataset now.
