@@ -18,10 +18,10 @@ Simple methods from introductory mathematics and probability have three importan
 - It is often useful in practice to construct quick estimates and comparisons for small parts of a problem - before fitting an elaborate model, or in understanding the output from such a model.\
 This chapter provides a quick review of some of these basic ideas.
 
-First some ideas from algebra are presented:
+First some ideas from algebra are presented:\
 - *Weighted averages* are used to adept to a target population (for eg. the average age of all North American as a weighted average). \
 - *Vectors* are used to represent a collection of numbers and *matrices* are used to represent a collection of vectors. \
-- To use linear regression effectively, you need to understand the algebra and geometry of straight *lines*, with the intercept and the slope. 
+- To use linear regression effectively, you need to understand the algebra and geometry of straight *lines*, with the intercept and the slope. \
 - To use *logarithmic* and *log-log relationships* for exponential and power-law growth and decline.
 
 Here an example of a regression line.

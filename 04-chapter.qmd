@@ -12,7 +12,7 @@ citation-location: margin
 
 ## Summary
 
-Statistical inference can be formulated as a set of operation on data that yield estimates and uncertainty statements about predictions and parameters of some underlying process of population. From a mathematical standpoint, these probabilistic uncertainty statements are derived based on some assumed probability model for observed data. In this chapter:
+Statistical inference can be formulated as a set of operation on data that yield estimates and uncertainty statements about predictions and parameters of some underlying process of population. From a mathematical standpoint, these probabilistic uncertainty statements are derived based on some assumed probability model for observed data. In this chapter:\
 - the basics of probability models are sketched (estimation, bias, and variance); \
 - the interpretation of statistical inferences and statistical errors in applied work; \
 - the theme of uncertainty in statistical inference is introduced; \
@@ -23,7 +23,7 @@ Statistical inference is used to learn from incomplete or imperfect data.
 - In the *measurement model* we are interested in learning about the underlying pattern or law.\
 - *Model error* refers to the inevitable imperferction of the model.\
 
-Some definitions are given. The *sampling distribution* is the set of possible datasets that could have been observed if the data collection process had been re-done, along with the probabilities of these possible values. It is said to be a *generative model* in that it represents a random process which, if known, could generate a new dataset. *Parameters* are the unknown numbers that determine a statistical model, e.g. $y_i=a+bx_i+\epsilon_i$ in which the errors $\epsilon_I$ are normally distributed with mean 0 and standard deviation $\sigma$. Thre parameters $a$ and $b$ are called *coeffients* and $\sigma$ is a *scale* or *variance parameter*.
+Some definitions are given. The *sampling distribution* is the set of possible datasets that could have been observed if the data collection process had been re-done, along with the probabilities of these possible values. It is said to be a *generative model* in that it represents a random process which, if known, could generate a new dataset. *Parameters* are the unknown numbers that determine a statistical model, e.g. $y_i=a+bx_i+\epsilon_i$ in which the errors $\epsilon_I$ are normally distributed with mean 0 and standard deviation $\sigma$. Thre parameters $a$ and $b$ are called *coeffients* and $\sigma$ is a *scale* or *variance parameter*.    
 The *standard error* ($\sigma/ \sqrt{n}$) is the estimated standard deviation of an estimate and can give us a sense of our uncertainty about the quantity of interest. The *confidence interval* represents a range of values of a parameter or quantity of that are roughly consistent with the data, given the assumed sampling distribution. 
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
