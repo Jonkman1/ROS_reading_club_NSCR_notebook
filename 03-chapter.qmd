@@ -79,6 +79,8 @@ Normal distribution, binomial distribution, and Poisson distribution and Unclass
 In regression we typically model as much of the data variation as possible with a *deterministic* model, with a probability distribution included to capture the *error*, or unexplained variation. Distributions can be used to compare using such as the mean, but also to look at shifts in quantiles for example. Probability distributions can also be used for predicting new outcomes.
 
 ## Presentation
+Remark: Following part has to be designed further (Harrie)
+
 Wim Bernasco chaired the practice part of chapter 3 on  Tuesday 23rd of January 2024. His original script you can find [here](url: https://github.com/langtonhugh/regression_book_nscr/tree/main/scripts/chair)
 
 Open two libraries first.
