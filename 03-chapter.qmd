@@ -79,3 +79,448 @@ Normal distribution, binomial distribution, and Poisson distribution and Unclass
 In regression we typically model as much of the data variation as possible with a *deterministic* model, with a probability distribution included to capture the *error*, or unexplained variation. Distributions can be used to compare using such as the mean, but also to look at shifts in quantiles for example. Probability distributions can also be used for predicting new outcomes.
 
 ## Presentation
+Wim Bernasco chaired the practice part of chapter 3 on  Tuesday 23rd of January 2024. His original script you can find [here](url: https://github.com/langtonhugh/regression_book_nscr/tree/main/scripts/chair)
+
+Open two libraries first.
+
+```{r}
+# For tidy data processing
+library(tidyverse)
+# Access data from "Regression and other stories"
+library(rosdata)
+```
+
+Wim looked at the excercises of chapter 3. He start with **excercise 3.1: Weighted averages**.
+
+You often encounter weighted averages when you work with aggregated data, such as averages in subpopulations using
+
+*Groups*: the categories that are being weighted (here four age groups) \
+*Shares*: the proportions of each group in the sample \
+*Means* : the means values of 'something' in each group \
+
+We first calculate total sample size by summing the four categories:
+
+```{r}
+#| label: weighted-averages
+
+
+n_sample = 200 + 250 + 300 + 250
+n_sample
+```
+
+Next we multiply the means of the groups with their share in the sample.
+
+
+```{r}
+#| label: share-in-sample
+50 * 200/n_sample + 
+60 * 250/n_sample +
+40 * 300/n_sample +
+30 * 250/n_sample
+```
+
+We can also do this more systematically and in a tidy way. Set up a little table that holds the relevant input data.
+
+```{r}
+tax_support <- 
+  tibble(age_class        = c("18-29", "30-44", "45-64", "65+"),
+         tax_support      = c(    50 ,    60 ,     40,   30),
+         sample_frequency = c(   200 ,   250 ,    300,  250))
+tax_support
+```
+
+::: {.callout-note}
+Note. I stumbled on the tribble function from the tibble package. This
+allows inputting observations in rows and variables in columns. Nice for small inline dataframes.
+:::
+
+```{r}
+tax_support_alt <-
+  tribble(
+    ~age_class, ~tax_support, ~sample_frequency,
+       "18-29",   50,   200,
+       "30-44",   60,   250,
+       "45-64",   40,   300,
+       "65+"  ,   30,   250
+)
+tax_support_alt
+
+```
+
+Next we calculate the weighted average. 
+- We first calculate the share in the sample of each group \
+- Next multiply shares with percentage tax support \
+- And finally sum over the four groups \
+
+```{r}
+tax_support |>
+  mutate(sample_share = sample_frequency / sum(sample_frequency),
+         sample_tax_support = tax_support * sample_share) |>
+  summarize(sample_tax_support = sum(sample_tax_support))
+```
+
+Then he looked at **excercise 3.2**. He was not sure whether he fully understood this exercise. He assumed the idea is to let us think about how other age distributions would affect the level of support. Thus, if the tax support in the four age groups is given, which age group distributions would yield an overall support percentage of 40?  An obvious but unrealistic distribution would consist of only people aged 30-44, because among this group the support is precisely $40\%$. 
+
+Mathematically, the situation can be described with 2 equations with 4 unknowns.
+
+ The first equation would just constrain the four weights to sum to 1.
+ 
+ $$(eq 1) wght_18 + wght_30 + wght_45 + wght_65  = 1$$
+ 
+ The second equation would constrain the weighted average to be 40
+ 
+ $$(eq 2) wght_18 * 50 + wght_30 * 60 + wght_45 * 40 + wght_65 * 30 = 40$$
+ 
+To find a deterministic solution, we need to assign values to two unknowns
+
+If we fix the shares of the least extreme age classes "18-29" and "45-64"
+to their original values (.2 and .3), we should be able to get an overall tax support of $40\%$ by finding a suitable mix of age group 30-44 (supportlevel $60\%$) and age group 65+ (support level $30\%$).
+
+
+$$(eq 1) wght_30 + wght_65  = .5$$
+$$(eq 2) wght_30 * 60 + wght_65 * 30 = 40 - 22 = 18$$
+
+$$(eq 1) wght_30 = .5 - wght_65$$
+$$(eq 2) (.5 - wght_65) * 60 + weight_65 * 30 = 18$$
+
+$$(eq 1) wght_30 = .5 - wght_65$$
+$$(eq 2) 30 - wght_65 * 60 + weight_65 * 30 = 18$$
+
+$$(eq 1) wght_30 = .5 - wght_65$$
+$$(eq 2) 30 - 30 * wght_65 = 18$$
+
+$$(eq 1) wght_30 = .5 - wght_65$$
+$$(eq 2) 30 * wght_65 = 12$$
+
+$$(eq 1) wght_30 = .5 - 0.4 = .1$$
+$$(eq 2) wght_65 = 12/30 = .4$$
+
+So, we get
+
+```{r}
+   50 * .2 + # this was fixed
+   60 * .1 + # this was calculated
+   40 * .3 + # this was fixed
+   30 * .4  # this was calculated
+```
+
+So it worked.
+
+Now he looked at **excercise 3.3 Plotting a line**.    
+
+
+```
+curve(expr = x,
+      from = 0,
+      to   = 20)
+```
+This gave an Error in x(x): object 'x' not found. Wim thinks the curve function needs at least one existing function name (`log`, `exp`, `sqrt`, `sin`, `cos`, ...) or math symbol (`+` `-` `/` `*` `^` ...) beyond the 'x'
+
+
+Here are some lines
+
+```{r}
+curve(expr = x*1,
+      from = 0,
+      to   = 20)
+```
+
+A flat line
+```{r}
+curve(expr = 1 + 0 * x,
+      from = 0,
+      to   = 20)
+```
+
+Another flat line
+
+```{r}
+curve(expr = 1 + 5 * x,
+      from = 0,
+      to   = 20)
+```
+
+A log line
+
+```{r}
+curve(expr = log(1 + x),
+      from = 0,
+      to   = 20)
+```
+
+An exponential line
+
+```{r}
+curve(expr = exp( x),
+      from = 0,
+      to   = 20)
+```
+
+A square root line
+
+```{r}
+curve(expr = sin(sqrt(x)),
+      from = 0,
+      to   = 2000)
+
+```
+
+
+Mile record data
+
+Open dataset from rosdata.
+
+```{r}
+data("mile")
+glimpse(mile)
+```
+
+He guesses that `year` is a time variable that include $monthnumber/12$ as decimals. Let us check the first two cases.
+
+```{r}
+1913 + 5/12
+
+1915 + 7/12
+```
+
+He thinks `seconds` equals $min * 60 + seconds$. Let us check the first two cases.
+
+```{r}
+4 * 60 + 14.4
+
+4 * 60 + 12.6
+```
+
+Correct.
+
+Let us plot data using base R.
+
+```{r}
+plot(x = mile$year,
+     y = mile$seconds,
+     xlab = "Year",
+     ylab = "Seconds",
+     main = "Mile record times")
+
+```
+
+Let us plot data using ggplot2.
+
+```{r}
+ggplot(data = mile,
+       mapping = aes(x = year,
+                     y = seconds)) +
+  geom_point() +
+  labs(x = "Year",
+       y = "Seconds",
+       title = "Mile record times")
+
+```
+
+Estimate the line 
+
+```{r}
+fit <- lm(formula = seconds ~ year,
+          data = mile)
+summary(fit)
+```
+
+```{r}
+fitted_intercept <- fit$coeff["(Intercept)"]
+fitted_slope <- fit$coeff["year"]
+```
+
+ggplot (add the estimated regression line).
+
+```{r}
+ggplot(data = mile,
+       mapping = aes(x = year,
+                     y = seconds)) +
+  geom_point() +
+  labs(x = "Year",
+       y = "Seconds",
+       title = "Mile record times") +
+  geom_abline(intercept = fitted_intercept,
+              slope = fitted_slope,
+              color = "red")
+
+```
+
+Now **Exercise 3.3 Probability distributions**.
+
+Make sure we all get the same numbers and create just 10 random numbers.
+
+```{r}
+set.seed(123456789)
+standard_normal_10 <- rnorm(n = 10, mean = 0, sd = 1)
+standard_normal_10
+```
+
+Now create 1000 random numbers.
+```{r}
+standard_normal_1000 <- rnorm(n = 1000, mean = 0, sd = 1)
+standard_normal_1000
+
+```
+
+he most basic histogram (single variable distribution) is created with the `hist` function.
+
+```{r}
+hist(x = standard_normal_1000,
+     breaks = 20,
+     col = "lightblue",
+     main = "Histogram of 1000 standard normal random numbers",
+     xlab = "Standard normal random numbers")
+
+```
+
+Density for the standard normal (mean = 0, sd = 1)
+
+
+
+```{r}
+x_axis <-
+  seq(min(standard_normal_1000), 
+      max(standard_normal_1000), 
+      length = 40)
+
+density <- dnorm(x_axis, 
+                 mean = mean(standard_normal_1000), 
+                 sd = sd(standard_normal_1000))
+```
+
+By assumption (theoretical distibution has mean 0.00000 and sd 0.00000).
+
+```{r}
+density_theoretical <- dnorm(x_axis, mean = 0, sd = 1)
+
+plot(x = x_axis, y = density, 
+     type = "l",
+     col = "red",
+     lwd = 2,
+     ylab = "Density",
+     main = "Density of standard normal distribution")
+
+```
+
+Creating 1000 random numbers
+
+```{r}
+sd2_normal_1000 <- rnorm(n = 1000, mean = 0, sd = 2)
+sd2_normal_1000
+
+x_axis <-
+  seq(min(sd2_normal_1000), 
+      max(sd2_normal_1000), 
+      length = 40)
+
+density <- dnorm(x_axis, mean = mean(sd2_normal_1000), 
+                 sd = sd(sd2_normal_1000))
+
+plot(x = x_axis, y = density, type = "l",
+     col = "red", 
+     lwd = 2,
+     ylab = "Density",
+     main = "Density of standard normal distribution")
+```
+   
+**Exercise 3.4**. 
+
+```{r}
+poisson_35_1000 <- 
+  rpois(n = 1000, lambda = 3.5)
+
+poisson_35_1000 |> hist(breaks = length(unique(poisson_35_1000)))
+```
+
+**Excercise 3.5 Binomial distribution**.
+
+```{r}
+binom_03_20_1000 <- 
+  rbinom(n = 1000, size = 20, prob = 0.3)
+
+binom_03_20_1000 |> hist(breaks = length(unique(binom_03_20_1000)))
+```
+
+
+**Exercise 3.6 Linear transformations**.
+
+The mean must be increased from 35 to 100 by adding 65, the standard deviation must be increased from 10 to 15 by multiplying with 1.5.
+
+Transformation $X' = aX + b$
+$mean(X') = a * mean(X) + b$
+$sd(X') = a * sd(X)$
+
+Now mean(X') = 100, mean(X) = 35, sd(X') = 15, sd(X) = 10
+
+ Substituting this:
+   $100 = a * 35 + b$
+   $15 = a * 10$
+
+$100 = 15/10 * 35 + b$
+$  b = 47.5$
+$  a = (100 - b) / 35 = 1.5$
+
+transformation: $X` = 1.5 * X + 47.5$
+
+```{r}
+original_scores = rnorm(n = 1000, mean = 35, sd = 10)
+original_scores |> hist(breaks = 10)
+
+transformed_scores = 1.5 * original_scores + 47.5
+transformed_scores |> hist(breaks = 10)
+```
+
+New range:  \
+Lowest  (X=0) is $0 * 1.5 + 47.5 = 47.5$ \
+Highest (X=50) is $50 * 1.5 + 47.5 = 122.5$
+
+Simple. First multiply to get the standard deviation right.
+
+```{r}
+transformed_1 <- original_scores * 1.5
+```
+
+# Check that is ~15 now
+  
+```{r}
+sd(transformed_1)
+```
+
+What is the mean after the first transformation
+```{r}
+mean(transformed_1)
+```
+
+Add the difference between the target mean (100) and the current mean
+```{r}
+transformed_2 <- transformed_1 + (100 - mean(transformed_1))
+transformed_2 |> hist(breaks = 10)
+```
+
+```{r}
+plot(original_scores, transformed_scores, type = "l")
+```
+
+  
+**Exercise 3.8 Correlated random variables**
+
+```{r}
+correlation_hw = .3
+mean_husbands = 69.1
+sd_husbands = 2.9
+mean_wives = 63.7
+sd_wives = 2.7
+```
+
+weighted sum:
+```{r}
+.5 * mean_husbands + .5 * mean_wives
+```
+
+Standard deviation of .5 * husband + .5 wife
+```{r}
+sqrt(.5^2 * sd_husbands + 
+       .5^2 * sd_wives + 
+       2 * .5 * .5 * correlation_hw)
+```

@@ -4,7 +4,7 @@ project:
 book:
   title: "ROS-Notebook"
   author: "Harrie Jonkman and others"
-  date: "12/16/2023"
+  date: today
   chapters:
     - index.qmd
     - part: "Fundamentals"
