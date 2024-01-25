@@ -104,8 +104,6 @@ We first calculate total sample size by summing the four categories:
 
 ```{r}
 #| label: weighted-averages
-
-
 n_sample = 200 + 250 + 300 + 250
 n_sample
 ```
@@ -124,6 +122,7 @@ Next we multiply the means of the groups with their share in the sample.
 We can also do this more systematically and in a tidy way. Set up a little table that holds the relevant input data.
 
 ```{r}
+#| label: tax-support
 tax_support <- 
   tibble(age_class        = c("18-29", "30-44", "45-64", "65+"),
          tax_support      = c(    50 ,    60 ,     40,   30),
@@ -137,6 +136,7 @@ allows inputting observations in rows and variables in columns. Nice for small i
 :::
 
 ```{r}
+#| label: tax-support-alt
 tax_support_alt <-
   tribble(
     ~age_class, ~tax_support, ~sample_frequency,
@@ -155,6 +155,7 @@ Next we calculate the weighted average.
 - And finally sum over the four groups \
 
 ```{r}
+#| label: tax-summarize
 tax_support |>
   mutate(sample_share = sample_frequency / sum(sample_frequency),
          sample_tax_support = tax_support * sample_share) |>
@@ -200,6 +201,7 @@ $$(eq 2) wght_65 = 12/30 = .4$$
 So, we get
 
 ```{r}
+#| label: simple-calc
    50 * .2 + # this was fixed
    60 * .1 + # this was calculated
    40 * .3 + # this was fixed
@@ -222,6 +224,9 @@ This gave an Error in x(x): object 'x' not found. Wim thinks the curve function 
 Here are some lines
 
 ```{r}
+#| label: curve1
+#| fig.cap: A line
+#| column: margin
 curve(expr = x*1,
       from = 0,
       to   = 20)
@@ -229,6 +234,9 @@ curve(expr = x*1,
 
 A flat line
 ```{r}
+#| label: curve2
+#| fig.cap: Another flat line
+#| column: margin
 curve(expr = 1 + 0 * x,
       from = 0,
       to   = 20)
@@ -237,6 +245,9 @@ curve(expr = 1 + 0 * x,
 Another flat line
 
 ```{r}
+#| label: curve3
+#| fig.cap: Another flat line
+#| column: margin
 curve(expr = 1 + 5 * x,
       from = 0,
       to   = 20)
@@ -245,6 +256,9 @@ curve(expr = 1 + 5 * x,
 A log line
 
 ```{r}
+#| label: curve4
+#| fig.cap: A log line
+#| column: margin
 curve(expr = log(1 + x),
       from = 0,
       to   = 20)
@@ -253,6 +267,9 @@ curve(expr = log(1 + x),
 An exponential line
 
 ```{r}
+#| label: curve5
+#| fig.cap: An exponential line
+#| column: margin
 curve(expr = exp( x),
       from = 0,
       to   = 20)
@@ -261,6 +278,9 @@ curve(expr = exp( x),
 A square root line
 
 ```{r}
+#| label: curve6
+#| fig.cap: A square root line
+#| column: margin
 curve(expr = sin(sqrt(x)),
       from = 0,
       to   = 2000)
@@ -273,6 +293,7 @@ Mile record data
 Open dataset from rosdata.
 
 ```{r}
+#| label: mile-data
 data("mile")
 glimpse(mile)
 ```
@@ -280,6 +301,7 @@ glimpse(mile)
 He guesses that `year` is a time variable that include $monthnumber/12$ as decimals. Let us check the first two cases.
 
 ```{r}
+#| label: year-plus
 1913 + 5/12
 
 1915 + 7/12
@@ -288,6 +310,7 @@ He guesses that `year` is a time variable that include $monthnumber/12$ as decim
 He thinks `seconds` equals $min * 60 + seconds$. Let us check the first two cases.
 
 ```{r}
+#| label: seconds-plus
 4 * 60 + 14.4
 
 4 * 60 + 12.6
@@ -298,6 +321,9 @@ Correct.
 Let us plot data using base R.
 
 ```{r}
+#| label: plot-mile
+#| fig.cap: Mile record times
+#| column: margin
 plot(x = mile$year,
      y = mile$seconds,
      xlab = "Year",
@@ -309,6 +335,9 @@ plot(x = mile$year,
 Let us plot data using ggplot2.
 
 ```{r}
+#| label: ggplot-mile-ggplot
+#| fig.cap: Mile record times
+#| column: margin
 ggplot(data = mile,
        mapping = aes(x = year,
                      y = seconds)) +
@@ -322,12 +351,14 @@ ggplot(data = mile,
 Estimate the line 
 
 ```{r}
+#| label: ggplot-mile-lm
 fit <- lm(formula = seconds ~ year,
           data = mile)
 summary(fit)
 ```
 
 ```{r}
+#| label: ggplot-mile-int-slope
 fitted_intercept <- fit$coeff["(Intercept)"]
 fitted_slope <- fit$coeff["year"]
 ```
@@ -335,6 +366,8 @@ fitted_slope <- fit$coeff["year"]
 ggplot (add the estimated regression line).
 
 ```{r}
+#| label: ggplot-mile-ggplot2
+#| column: margin
 ggplot(data = mile,
        mapping = aes(x = year,
                      y = seconds)) +
@@ -353,6 +386,7 @@ Now **Exercise 3.3 Probability distributions**.
 Make sure we all get the same numbers and create just 10 random numbers.
 
 ```{r}
+#| label: standard-normal-10
 set.seed(123456789)
 standard_normal_10 <- rnorm(n = 10, mean = 0, sd = 1)
 standard_normal_10
@@ -360,6 +394,7 @@ standard_normal_10
 
 Now create 1000 random numbers.
 ```{r}
+#| label: standard-normal-1000
 standard_normal_1000 <- rnorm(n = 1000, mean = 0, sd = 1)
 standard_normal_1000
 
@@ -368,6 +403,8 @@ standard_normal_1000
 he most basic histogram (single variable distribution) is created with the `hist` function.
 
 ```{r}
+#| label: standard-normal-hist
+#| column: margin
 hist(x = standard_normal_1000,
      breaks = 20,
      col = "lightblue",
@@ -381,6 +418,7 @@ Density for the standard normal (mean = 0, sd = 1)
 
 
 ```{r}
+#| label: standard-normal-density
 x_axis <-
   seq(min(standard_normal_1000), 
       max(standard_normal_1000), 
@@ -394,6 +432,8 @@ density <- dnorm(x_axis,
 By assumption (theoretical distibution has mean 0.00000 and sd 0.00000).
 
 ```{r}
+#| label: standard-normal-density-theoretical
+#| column: margin
 density_theoretical <- dnorm(x_axis, mean = 0, sd = 1)
 
 plot(x = x_axis, y = density, 
@@ -408,6 +448,7 @@ plot(x = x_axis, y = density,
 Creating 1000 random numbers
 
 ```{r}
+#| label: sd2-normal-1000
 sd2_normal_1000 <- rnorm(n = 1000, mean = 0, sd = 2)
 sd2_normal_1000
 
@@ -419,6 +460,11 @@ x_axis <-
 density <- dnorm(x_axis, mean = mean(sd2_normal_1000), 
                  sd = sd(sd2_normal_1000))
 
+```
+
+```{r}
+#| label: sd2-normal-density-theoretical
+#| column: margin
 plot(x = x_axis, y = density, type = "l",
      col = "red", 
      lwd = 2,
@@ -429,6 +475,9 @@ plot(x = x_axis, y = density, type = "l",
 **Exercise 3.4**. 
 
 ```{r}
+#| label: poisson-35-1000
+#| fig.cap: Poisson distribution with lambda = 3.5
+#| column: margin
 poisson_35_1000 <- 
   rpois(n = 1000, lambda = 3.5)
 
@@ -438,6 +487,9 @@ poisson_35_1000 |> hist(breaks = length(unique(poisson_35_1000)))
 **Excercise 3.5 Binomial distribution**.
 
 ```{r}
+#| label: binom-03-20-1000
+#| fig.cap: Binomial distribution with p = 0.3, n = 20
+#| column: margin
 binom_03_20_1000 <- 
   rbinom(n = 1000, size = 20, prob = 0.3)
 
@@ -466,6 +518,7 @@ $  a = (100 - b) / 35 = 1.5$
 transformation: $X` = 1.5 * X + 47.5$
 
 ```{r}
+#| label: linear-transformation
 original_scores = rnorm(n = 1000, mean = 35, sd = 10)
 original_scores |> hist(breaks = 10)
 
@@ -480,27 +533,33 @@ Highest (X=50) is $50 * 1.5 + 47.5 = 122.5$
 Simple. First multiply to get the standard deviation right.
 
 ```{r}
+#| label: linear-transformation-1
 transformed_1 <- original_scores * 1.5
-```
-
 # Check that is ~15 now
-  
-```{r}
 sd(transformed_1)
+
 ```
 
-What is the mean after the first transformation
+
+What is the mean after the first transformation?
+
 ```{r}
+#| label: linear-transformation-2
 mean(transformed_1)
 ```
 
 Add the difference between the target mean (100) and the current mean
+
 ```{r}
+#| label: linear-transformation-3
 transformed_2 <- transformed_1 + (100 - mean(transformed_1))
 transformed_2 |> hist(breaks = 10)
 ```
 
 ```{r}
+#| label: linear-transformation-4
+#| fig.cap: Original scores vs transformed scores
+#| column: margin
 plot(original_scores, transformed_scores, type = "l")
 ```
 
@@ -508,6 +567,7 @@ plot(original_scores, transformed_scores, type = "l")
 **Exercise 3.8 Correlated random variables**
 
 ```{r}
+#| label: correlated-random-variables
 correlation_hw = .3
 mean_husbands = 69.1
 sd_husbands = 2.9
@@ -516,12 +576,16 @@ sd_wives = 2.7
 ```
 
 weighted sum:
+
 ```{r}
+#| label: correlated-random-variables-1
 .5 * mean_husbands + .5 * mean_wives
 ```
 
 Standard deviation of .5 * husband + .5 wife
+
 ```{r}
+#| label: correlated-random-variables-2
 sqrt(.5^2 * sd_husbands + 
        .5^2 * sd_wives + 
        2 * .5 * .5 * correlation_hw)

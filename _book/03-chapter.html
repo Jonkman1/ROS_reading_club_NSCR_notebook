@@ -217,7 +217,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary"><span class="header-section-number">3.1</span> Summary</a></li>
   <li><a href="#presentation" id="toc-presentation" class="nav-link" data-scroll-target="#presentation"><span class="header-section-number">3.2</span> Presentation</a></li>
-  <li><a href="#check-that-is-15-now" id="toc-check-that-is-15-now" class="nav-link" data-scroll-target="#check-that-is-15-now"><span class="header-section-number">4</span> Check that is ~15 now</a></li>
   </ul>
 </nav>
     </div>
@@ -308,7 +307,7 @@ This chapter provides a quick review of some of these basic ideas.</p>
 <p>Normal distribution, binomial distribution, and Poisson distribution and Unclassified probability distributions are types of probability distributions presented here. They will be worked out in detail in the following chapters.</p>
 <p>In regression we typically model as much of the data variation as possible with a <em>deterministic</em> model, with a probability distribution included to capture the <em>error</em>, or unexplained variation. Distributions can be used to compare using such as the mean, but also to look at shifts in quantiles for example. Probability distributions can also be used for predicting new outcomes.</p>
 </section>
-<section id="presentation" class="level2" data-number="3.2">
+<section id="presentation" class="level2 page-columns page-full" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="presentation"><span class="header-section-number">3.2</span> Presentation</h2>
 <p>Remark: Following part has to be designed further (Harrie)</p>
 <p>Wim Bernasco chaired the practice part of chapter 3 on Tuesday 23rd of January 2024. His original script you can find <a href="url:%20https://github.com/langtonhugh/regression_book_nscr/tree/main/scripts/chair">here</a></p>
@@ -440,59 +439,89 @@ Note
       to   = 20)</code></pre>
 <p>This gave an Error in x(x): object ‘x’ not found. Wim thinks the curve function needs at least one existing function name (<code>log</code>, <code>exp</code>, <code>sqrt</code>, <code>sin</code>, <code>cos</code>, …) or math symbol (<code>+</code> <code>-</code> <code>/</code> <code>*</code> <code>^</code> …) beyond the ‘x’</p>
 <p>Here are some lines</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="at">expr =</span> x<span class="sc">*</span><span class="dv">1</span>,</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="dv">0</span>,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">to   =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/curve1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">A line</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>A flat line</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="at">expr =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">0</span> <span class="sc">*</span> x,</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="dv">0</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">to   =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/curve2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Another flat line</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>Another flat line</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="at">expr =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> x,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="dv">0</span>,</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">to   =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/curve3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Another flat line</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>A log line</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="at">expr =</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> x),</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="dv">0</span>,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">to   =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/curve4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">A log line</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>An exponential line</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="at">expr =</span> <span class="fu">exp</span>( x),</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="dv">0</span>,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">to   =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/curve5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">An exponential line</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>A square root line</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="at">expr =</span> <span class="fu">sin</span>(<span class="fu">sqrt</span>(x)),</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> <span class="dv">0</span>,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">to   =</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/curve6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">A square root line</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>Mile record data</p>
 <p>Open dataset from rosdata.</p>
 <div class="cell">
@@ -533,18 +562,23 @@ $ seconds &lt;dbl&gt; 254.4, 252.6, 250.4, 249.2, 247.6, 246.8, 246.4, 246.2, 24
 </div>
 <p>Correct.</p>
 <p>Let us plot data using base R.</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> mile<span class="sc">$</span>year,</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> mile<span class="sc">$</span>seconds,</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year"</span>,</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Seconds"</span>,</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Mile record times"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/plot-mile-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Mile record times</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>Let us plot data using ggplot2.</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mile,</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year,</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> seconds)) <span class="sc">+</span></span>
@@ -552,10 +586,15 @@ $ seconds &lt;dbl&gt; 254.4, 252.6, 250.4, 249.2, 247.6, 246.8, 246.4, 246.2, 24
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Seconds"</span>,</span>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Mile record times"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/ggplot-mile-ggplot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Mile record times</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p>Estimate the line</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> seconds <span class="sc">~</span> year,</span>
@@ -587,7 +626,7 @@ F-statistic:  1277 on 1 and 30 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>fitted_slope <span class="ot">&lt;-</span> fit<span class="sc">$</span>coeff[<span class="st">"year"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>ggplot (add the estimated regression line).</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mile,</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year,</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> seconds)) <span class="sc">+</span></span>
@@ -598,10 +637,10 @@ F-statistic:  1277 on 1 and 30 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> fitted_intercept,</span>
 <span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">slope =</span> fitted_slope,</span>
 <span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="03-chapter_files/figure-html/ggplot-mile-ggplot2-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
 <p>Now <strong>Exercise 3.3 Probability distributions</strong>.</p>
 <p>Make sure we all get the same numbers and create just 10 random numbers.</p>
 <div class="cell">
@@ -821,16 +860,16 @@ F-statistic:  1277 on 1 and 30 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>he most basic histogram (single variable distribution) is created with the <code>hist</code> function.</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="at">x =</span> standard_normal_1000,</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">20</span>,</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"lightblue"</span>,</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Histogram of 1000 standard normal random numbers"</span>,</span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Standard normal random numbers"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="03-chapter_files/figure-html/standard-normal-hist-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
 <p>Density for the standard normal (mean = 0, sd = 1)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>x_axis <span class="ot">&lt;-</span></span>
@@ -843,7 +882,7 @@ F-statistic:  1277 on 1 and 30 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sd =</span> <span class="fu">sd</span>(standard_normal_1000))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>By assumption (theoretical distibution has mean 0.00000 and sd 0.00000).</p>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>density_theoretical <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x_axis, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> x_axis, <span class="at">y =</span> density, </span>
@@ -852,10 +891,10 @@ F-statistic:  1277 on 1 and 30 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">2</span>,</span>
 <span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
 <span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Density of standard normal distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="03-chapter_files/figure-html/standard-normal-density-theoretical-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
 <p>Creating 1000 random numbers</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>sd2_normal_1000 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
@@ -1068,37 +1107,48 @@ F-statistic:  1277 on 1 and 30 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">length =</span> <span class="dv">40</span>)</span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>density <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x_axis, <span class="at">mean =</span> <span class="fu">mean</span>(sd2_normal_1000), </span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sd =</span> <span class="fu">sd</span>(sd2_normal_1000))</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> x_axis, <span class="at">y =</span> density, <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>, </span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Density of standard normal distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sd =</span> <span class="fu">sd</span>(sd2_normal_1000))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> x_axis, <span class="at">y =</span> density, <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>, </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Density of standard normal distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<p><img src="03-chapter_files/figure-html/sd2-normal-density-theoretical-1.png" class="img-fluid" width="672"></p>
+</div></div></div>
 <p><strong>Exercise 3.4</strong>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>poisson_35_1000 <span class="ot">&lt;-</span> </span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">lambda =</span> <span class="fl">3.5</span>)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>poisson_35_1000 <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="fu">length</span>(<span class="fu">unique</span>(poisson_35_1000)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p><strong>Excercise 3.5 Binomial distribution</strong>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>binom_03_20_1000 <span class="ot">&lt;-</span> </span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">prob =</span> <span class="fl">0.3</span>)</span>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>poisson_35_1000 <span class="ot">&lt;-</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">lambda =</span> <span class="fl">3.5</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>binom_03_20_1000 <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="fu">length</span>(<span class="fu">unique</span>(binom_03_20_1000)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>poisson_35_1000 <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="fu">length</span>(<span class="fu">unique</span>(poisson_35_1000)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/poisson-35-1000-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Poisson distribution with lambda = 3.5</figcaption>
+</figure>
 </div>
+</div></div></div>
+<p><strong>Excercise 3.5 Binomial distribution</strong>.</p>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>binom_03_20_1000 <span class="ot">&lt;-</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">prob =</span> <span class="fl">0.3</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>binom_03_20_1000 <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="fu">length</span>(<span class="fu">unique</span>(binom_03_20_1000)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/binom-03-20-1000-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Binomial distribution with p = 0.3, n = 20</figcaption>
+</figure>
 </div>
+</div></div></div>
 <p><strong>Exercise 3.6 Linear transformations</strong>.</p>
 <p>The mean must be increased from 35 to 100 by adding 65, the standard deviation must be increased from 10 to 15 by multiplying with 1.5.</p>
 <p>Transformation <span class="math inline">\(X' = aX + b\)</span> <span class="math inline">\(mean(X') = a * mean(X) + b\)</span> <span class="math inline">\(sd(X') = a * sd(X)\)</span></p>
@@ -1107,15 +1157,15 @@ F-statistic:  1277 on 1 and 30 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><span class="math inline">\(100 = 15/10 * 35 + b\)</span> $ b = 47.5$ $ a = (100 - b) / 35 = 1.5$</p>
 <p>transformation: <span class="math inline">\(X` = 1.5 * X + 47.5\)</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>original_scores <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">35</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>original_scores <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>original_scores <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">35</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>original_scores <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+<p><img src="03-chapter_files/figure-html/linear-transformation-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>transformed_scores <span class="ot">=</span> <span class="fl">1.5</span> <span class="sc">*</span> original_scores <span class="sc">+</span> <span class="fl">47.5</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>transformed_scores <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>transformed_scores <span class="ot">=</span> <span class="fl">1.5</span> <span class="sc">*</span> original_scores <span class="sc">+</span> <span class="fl">47.5</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>transformed_scores <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-31-2.png" class="img-fluid" width="672"></p>
+<p><img src="03-chapter_files/figure-html/linear-transformation-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>New range:<br>
@@ -1123,18 +1173,14 @@ Lowest (X=0) is <span class="math inline">\(0 * 1.5 + 47.5 = 47.5\)</span><br>
 Highest (X=50) is <span class="math inline">\(50 * 1.5 + 47.5 = 122.5\)</span></p>
 <p>Simple. First multiply to get the standard deviation right.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>transformed_1 <span class="ot">&lt;-</span> original_scores <span class="sc">*</span> <span class="fl">1.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="check-that-is-15-now" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Check that is ~15 now</h1>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(transformed_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>transformed_1 <span class="ot">&lt;-</span> original_scores <span class="sc">*</span> <span class="fl">1.5</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that is ~15 now</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(transformed_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 14.82577</code></pre>
 </div>
 </div>
-<p>What is the mean after the first transformation</p>
+<p>What is the mean after the first transformation?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(transformed_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1146,15 +1192,20 @@ Highest (X=50) is <span class="math inline">\(50 * 1.5 + 47.5 = 122.5\)</span></
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>transformed_2 <span class="ot">&lt;-</span> transformed_1 <span class="sc">+</span> (<span class="dv">100</span> <span class="sc">-</span> <span class="fu">mean</span>(transformed_1))</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>transformed_2 <span class="sc">|&gt;</span> <span class="fu">hist</span>(<span class="at">breaks =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+<p><img src="03-chapter_files/figure-html/linear-transformation-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
+<div class="cell page-columns page-full">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(original_scores, transformed_scores, <span class="at">type =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="03-chapter_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+
+<div class="no-row-height column-margin column-container"><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03-chapter_files/figure-html/linear-transformation-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Original scores vs transformed scores</figcaption>
+</figure>
 </div>
-</div>
+</div></div></div>
 <p><strong>Exercise 3.8 Correlated random variables</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>correlation_hw <span class="ot">=</span> .<span class="dv">3</span></span>
