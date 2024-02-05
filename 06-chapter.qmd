@@ -1,0 +1,25 @@
+---
+title: "Background on regression modelling" 
+author: "XX"
+format:
+  html: 
+    grid: 
+      margin-width: 350px
+reference-location: margin
+citation-location: margin
+---
+
+## Summary
+At a pure mathematical level, the methods described in this book have two purposes:   \
+- **prediction** (regression to predict an outcome variable, or more precisely the distribution of the outcome, given some set of inputs);   \
+- **comparison** (comparing predictions for different values of the inputs, to make simple comparisons between groups, or to estimate causal effects (see chapters 18-21).
+
+In this chapter:   \
+- the favored technique of fake-data simulation is used to **understand** a simple regression;    \
+- with using an example (height and earnings) **warning** agains unwarranted causal interpretations;   \
+- **historical origins of regression** are discussed ;   \
+
+
+## Presentation
+
+

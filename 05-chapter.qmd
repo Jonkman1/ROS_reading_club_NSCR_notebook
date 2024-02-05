@@ -20,14 +20,20 @@ In this book *Regression and Other Stories* and in practice Gelman et all. use s
 Because of this, chapter 5 introduces simulations (basic ideas and tools to perform it in `R`).
 
 
-Different examples are given of simulations of discrete, continuous, and mixed discrete/ continuous models are presented.
+There are many settings where it makes sense to use a set of simulation draws to summarize a distribution, which can represent a simulation from a probability model, a prediction for a future outcome from a fitted regression, or uncertainty about parameters in a fitted model.
 
-Here is an discrete model example: Across the world the probability a baby will be born a girl is about $48.8\%$, with the probability of a boy then being about $51.2\%$. If you wanted to get a sense of how many girls you'd expect out of 400 births, you could simulate using the `rbinom()` function.
+
+In this book they use the Bayesian simulation approach for regression models. Bootstrap is also a simulation approach, but it is not as general as Bayesian simulation. It is very general, any estimate can be simulated, and it is easy to use with complex models. But it has limitations (for example leading to an answer with an inappropriately high level of certainty). This method is not used in the book.
+
+## Presentation
+
+Different examples of simulations of discrete, continuous, and mixed discrete/ continuous models are presented in this chapter.
+
+It starts with a discrete model example: Across the world the probability a baby will be born a girl is about $48.8\%$, with the probability of a boy then being about $51.2\%$. If you wanted to get a sense of how many girls you'd expect out of 400 births, you could simulate using the `rbinom()` function.
 
 ```{r, message=FALSE, warning=FALSE}
 #| label: rbinom
-#| fig.cap: Simulating 400 births
-#| column: margin
+
 
 set.seed(5)
 # use set seed here because we want to get the same results every time we run the code
@@ -36,12 +42,15 @@ rbinom(n = 1, size = 400, prob = 0.488)
 
 ```
 
-Graph results of 1000 simulations:
+Graph results of 10000 simulations:
 
 ```{r}
+#| label: rbinom_graph
+#| fig.cap: Simulating 400 births
+#| column: margin
+
 library(tidyverse)
 
-# this is from Solomon Kurz's book, he avoids working with loops
 
 set.seed(5)
 # set the global plotting theme
@@ -52,18 +61,114 @@ theme_set(theme_linedraw() +
 set.seed(5)
 
 # simulate
-tibble(girls = rbinom(n = 1000, size = 400, prob = .488)) %>% 
+tibble(girls = rbinom(n = 10000, size = 400, prob = .488)) %>% 
   
-  # plot
-  ggplot(aes(x = girls)) +
-  geom_histogram(binwidth = 5) +
-  scale_x_continuous("# girls out of 400", breaks = 7:9 * 25) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05)))
+# plot
+ggplot(aes(x = girls)) +
+geom_histogram(binwidth = 2) +
+scale_x_continuous("Number of girls out of 400 single births \ 
+                   in 10.000 observations", breaks = 7:9 * 25) +
+scale_y_continuous(expand = expansion(mult = c(0, 0.05)))
 ```
 
-There are many settings where it makes sense to use a set of simulation draws to summarize a distribution, which can represent a simulation from a probability model, a prediction for a future outcome from a fitted regression, or uncertainty about parameters in a fitted model.
+Also simulations of other models are presented. For example, the normal, binomial and Poisson distributions are presented.
 
-Here the **tidyverse** oriented flow, as Kurz defined it.
+Define mean=3 and sd=0,5
+
+```{r}
+#| label: def
+
+mean = 3
+sd = 0.5
+n_sims = 10000
+
+```
+
+Plot the results of 10000 simulations of a normal distribution with mean=3 and sd=0,5:
+
+Then plot the results in histograms:
+
+```{r}
+#| label: normal
+#| fig.cap: Simulating a normal distribution
+#| column: margin
+
+library(tidyverse)
+
+set.seed(660)
+
+d <- tibble(x = rnorm(n_sims, mean = mean, sd = sd))
+
+d %>% 
+  ggplot(aes(x)) +
+  geom_histogram(binwidth = 0.1) +
+  labs(
+    title =
+      str_glue(
+        "Normal distribution with mean {mean} and standard deviation {sd}"
+      )
+  )
+
+```
+
+Here data for a binomial distribution:
+
+```{r}
+#| label: binomial
+
+size <- 20
+prob <- 0.6
+
+```
+
+Let us plot the results of 10000 simulations of a binomial distribution with size=20 and prob=0.6:
+
+```{r}
+#| label: binomial_graph
+#| fig.cap: Simulating a binomial distribution
+#| column: margin
+
+set.seed(660)
+
+d <- tibble(x = rbinom(n_sims, size = size, prob = prob))
+
+d %>% ggplot(aes(x)) +
+  geom_bar() +
+  scale_x_continuous(breaks = seq(0, size), minor_breaks = NULL) +
+  coord_cartesian(xlim = c(0, size)) +
+  labs(
+    title =
+      str_glue(
+        "Binomial distribution with size {size} and probability {prob}"
+      )
+  )
+
+```
+
+Now a Poisson distribution with mean 5:
+
+```{r}
+#| label: poisson
+#| fig.cap: Simulating a Poisson distribution
+#| column: margin
+
+lambda <- 5
+
+set.seed(660)
+
+d <- tibble(x = rpois(n_sims, lambda))
+
+d %>% ggplot(aes(x)) +
+  geom_bar() +
+  scale_x_continuous(breaks = seq(0, 2 * lambda), minor_breaks = NULL) +
+  coord_cartesian(xlim = c(0, 2 * lambda)) +
+  labs(
+    title = str_glue("Poisson distribution with mean {lambda}")
+  )
+```
+
+
+Here you find a **tidyverse** oriented flow, as Kurz defined it.
 
 ```{r}
 set.seed(5)
@@ -75,6 +180,3 @@ tibble(z = rnorm(1e4, mean = 5, sd = 2)) %>%
             mad_sd = mad(z))
 ```
 
-In this book they use the Bayesian simulation approach for regression models. Bootstrap is also a simulation approach, but it is not as general as Bayesian simulation. It is very general, any estimate can be simulated, and it is easy to use with complex models. But it has limitations (for example leading to an answer with an inappropriately high level of certainty). This method is not used in the book.
-
-## Presentation

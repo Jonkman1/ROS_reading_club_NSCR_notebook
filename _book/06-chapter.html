@@ -6,10 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Harrie Jonkman and others">
-<meta name="dcterms.date" content="2024-02-05">
+<meta name="author" content="XX">
 
-<title>ROS-Notebook</title>
+<title>ROS-Notebook - 6&nbsp; Background on regression modelling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-chapter.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./05-chapter.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">The Reading Club</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-chapter.html">Linear Regression</a></li><li class="breadcrumb-item"><a href="./06-chapter.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Background on regression modelling</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -102,7 +102,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">The Reading Club</span></a>
   </div>
 </li>
@@ -158,7 +158,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-chapter.html" class="sidebar-item-text sidebar-link">
+  <a href="./06-chapter.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Background on regression modelling</span></span></a>
   </div>
 </li>
@@ -192,8 +192,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-reading-club" id="toc-the-reading-club" class="nav-link active" data-scroll-target="#the-reading-club">The Reading Club</a></li>
-  <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary"><span class="header-section-number">6.1</span> Summary</a></li>
+  <li><a href="#presentation" id="toc-presentation" class="nav-link" data-scroll-target="#presentation"><span class="header-section-number">6.2</span> Presentation</a></li>
   </ul>
 </nav>
     </div>
@@ -202,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ROS-Notebook</h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Background on regression modelling</span></h1>
 </div>
 
 
@@ -212,16 +212,10 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Harrie Jonkman and others </p>
+             <p>XX </p>
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 5, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -229,22 +223,19 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="the-reading-club" class="level1 unnumbered">
-<h1 class="unnumbered">The Reading Club</h1>
-<p><img src="img/ROS_front.png" class="img-fluid"></p>
-<p><br></p>
-<p>This is a Notebook around <strong>Regression and Other Stories</strong> by Andrew Gelman, Jennifer Hill, and Aki Vehtari. The book is available at <a href="https://avehtari.github.io/ROS-Examples/" class="uri">https://avehtari.github.io/ROS-Examples/</a>. The notesbook is available at <a href="https://github.com/Jonkman1/Regression_reading_club_NSCR" class="uri">https://github.com/Jonkman1/Regression_reading_club_NSCR</a>.</p>
-<p>This Notebook is part of the <strong>NSC-R Workshops</strong>. The NSC-R Workshops is a series of one-hour online instructional sessions to support participants in developing their data science skills in R, and to promote open science principles. The NSC-R workshop meetings are organized by a team mostly affiliated with the Netherlands Institute for the Study of Crime and Law Enforcement (NSCR), but they are open to everyone, regardless of affiliation or skill level.</p>
-<p>There are workshops on specific topics and Tidy Tuesday workshops that cover more basic skills and materials. A collection of these latter workshop materials have been brought together by Harrie Jonkman in a single document that you can find <a href="https://ttbook.netlify.app/">here</a>.</p>
-<p>Starting November 2023 we are transforming the workshops on specific topics into a reading group, where we explore the world of data analysis using the book <em>Regression and Other Stories</em> by Gelman, Hill and Vehtari as a source of inspiration. Click <a href="https://nscrweb.netlify.app/posts/2023-11-14-nsc-r-workshop-ros/">here</a> for more information.</p>
-<p>In this Notebook you find short summaries of the chapters of the ROS-book and presentations of these chapters by different chairs. The content of the Notebook will grow over time.</p>
+<section id="summary" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.1</span> Summary</h2>
+<p>At a pure mathematical level, the methods described in this book have two purposes:<br>
+- <strong>prediction</strong> (regression to predict an outcome variable, or more precisely the distribution of the outcome, given some set of inputs);<br>
+- <strong>comparison</strong> (comparing predictions for different values of the inputs, to make simple comparisons between groups, or to estimate causal effects (see chapters 18-21).</p>
+<p>In this chapter:<br>
+- the favored technique of fake-data simulation is used to <strong>understand</strong> a simple regression;<br>
+- with using an example (height and earnings) <strong>warning</strong> agains unwarranted causal interpretations;<br>
+- <strong>historical origins of regression</strong> are discussed ;<br>
+</p>
 </section>
-<section id="materials" class="level1 unnumbered">
-<h1 class="unnumbered">Materials</h1>
-<ul>
-<li><a href="https://users.aalto.fi/~ave/ROS.pdf">Here</a> you find the book.</li>
-<li><a href="https://avehtari.github.io/ROS-Examples/examples.html">Here</a> you find background information and syntaxes.</li>
-</ul>
+<section id="presentation" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="presentation"><span class="header-section-number">6.2</span> Presentation</h2>
 
 
 </section>
@@ -485,10 +476,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./05-chapter.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Simulation</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-chapter.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

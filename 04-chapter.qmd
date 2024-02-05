@@ -5,7 +5,6 @@ format:
   html: 
     grid: 
       margin-width: 350px
-  pdf: default
 reference-location: margin
 citation-location: margin
 ---
