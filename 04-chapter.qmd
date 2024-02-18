@@ -1,6 +1,6 @@
 ---
 title: "Statistical Inference"
-author: "X Y (Chair)"
+author: "Harrie Jonkman"
 format:
   html: 
     grid: 
@@ -90,4 +90,376 @@ In this book they try to move beyond hypothesis testing. The most important aspe
 Bayesian methods can reduce now-common pattern of the researchers getting jerked around by noise patterns that happen to exceed the statistical significance threshold. We can move forward by accepting uncertainty and embracing variation.
 
 ## Presentation
+
+### 1. ESTIMATION
+
+Set the true data-generating parameters (e.g mean 175 cm and sd=6 cm)
+
+```{r}
+library(tidyverse)
+
+n<-1000
+mu<-175
+sigma<-6
+
+estimate<-mu/n
+se<-sqrt(estimate*(1-estimate)/n)
+
+estimate
+se
+```
+
+This is figure 4.2 on page 52
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)
+
+#| label: simulation
+#| fig.cap: "Simulation"
+# how many simulations would you like?
+n <- 100
+
+
+mu <- 175
+sigma <- 6
+
+set.seed(4)
+
+# simulate
+d <-
+  tibble(i = 1:n,
+         y = rnorm(n, mean = mu, sd = sigma)) |>
+  mutate(ll95 = y - 2 * sigma,
+         ul95 = y + 2 * sigma)
+
+# plot
+d %>% 
+  ggplot(aes(x = i, y = y)) +
+  geom_hline(yintercept = mu, color = "grey75", size = 1/4) +
+  geom_pointrange(aes(ymin = ll95, ymax = ul95),
+                  size = 1/4, fatten = 2/3) +
+  labs(title = "Simulation of coverage of confidence intervals",
+       subtitle = "The horizontal line shows the true parameter value, and dots and vertical lines show\nestimates and confidence intervals obtained from 100 random simulations from the\nsampling distribution.",
+       x = "100 persons",
+       y = "Estimate, and 95% confidence interval")
+
+
+```
+
+Let us look at different estimations using different distributions
+
+**Normal distribution**
+
+The Normal distribution, frequently encountered in real-world scenarios like IQ scores or heights in a population, exemplifies a symmetric bell-shaped curve. It symbolizes situations where most observations cluster around a central mean, with fewer occurrences as we move away from the center.
+
+Let us generate a normal distribution in R
+
+```{r}
+set.seed(4)
+
+n<-1000
+mu<-175
+sd<-6
+
+samplenorm <- rnorm(n=n, mean = mu, sd = sd)
+print(samplenorm)
+```
+
+Summarize over sample
+
+```{r}
+mean(samplenorm)
+sd(samplenorm)
+confint(lm(samplenorm~1), level=0.95)
+```
+
+Plot it!
+
+```{r}
+#| label: normaldistribution
+#| fig.cap: "Normal distribution"
+
+hist(samplenorm, breaks=30, col = "skyblue", border = "black", main = "Normal Distribution", xlab = "Value", ylab = "Frequency")
+```
+
+**Binomial distributions**
+
+When N available things all have the same probability $p$ of being in a certain state (eg. being counted, male or dead)
+
+Generating a binomial distribution in R
+
+```{r}
+set.seed(5)
+
+n<-1000.  # sample size
+N<- 16    # numbers of individuals
+p<- 0.8   # probability of success (counted, male or)
+
+samplebinom <- rbinom(n=n, size = N, prob = p)
+print(samplebinom)
+```
+
+Summarize over sample
+
+```{r}
+mean(samplebinom)
+sd(samplebinom)
+confint(lm(samplebinom~1), level=0.95)
+```
+
+Plot it!
+
+```{r}
+#| label: binomialdistribution
+#| fig.cap: "Binomial distribution"
+
+hist(samplebinom, breaks=30, col = "skyblue", border = "black", main = "Binomial Distribution", xlab = "Value", ylab = "Frequency")
+
+```
+
+## Poisson distribution
+
+This is about frequency of rare events in a specific time or space (for example number of emails people receive on day basis, or number of cars passing a certain point in a given time)
+
+Generating a Poisson distribution in R
+
+```{r}
+set.seed(6)
+
+n<-1000 # sample size
+lambda<- 5 # average number of events in a given time or space
+
+samplepois <- rpois(n=n, lambda = lambda)
+print(samplepois)
+```
+
+Summarize over sample
+
+```{r}
+summary(samplepois)
+```
+
+Plot it!
+
+```{r}
+#| label: poissondistribution
+#| fig.cap: "Poisson distribution"
+
+hist(samplepois, breaks=30, col = "skyblue", border = "black", main = "Poisson Distribution", xlab = "Value", ylab = "Frequency")
+```
+
+## 2. UNCERTAINTY
+
+Uncertainty can often be compared visually, see for example figure 4.3 on page 53. It shows the proportion of American adults supporting the death penalty over the years (from a serie of Gallup polls)
+
+Let us load packages and the data
+
+```{r}
+library(tidyverse)
+polls <- matrix(scan("ROS-Examples-master/Death/data/polls.dat"), ncol=5, byrow=TRUE)
+
+View(polls)
+
+```
+
+```{r}
+death_penalty <- 
+  polls |>
+  matrix(ncol = 5, byrow = TRUE) %>% 
+  as_tibble(
+    .name_repair = ~ c("year", "month", "favor", "not_in_favor", "no_opinion")
+  ) |> 
+  transmute(
+    date = lubridate::make_date(year = year, month = month),
+    favor = favor / (favor + not_in_favor),
+    favor_sd = sqrt(favor * (1 - favor) / 1000)
+  )
+```
+
+Look at data set now
+
+```{r}
+View(death_penalty)
+```
+
+Are you in favor of the death penalty for a person convicted of murder?
+
+```{r}
+death_penalty %>% 
+  ggplot(aes(date, favor)) +
+  geom_pointrange(
+    aes(ymin = favor - favor_sd, ymax = favor + favor_sd),
+    size = 0.2
+  ) +
+  scale_x_date(
+    breaks = lubridate::make_date(year = seq(1940, 2000, 10)),
+    minor_breaks = lubridate::make_date(year = seq(1936, 2004, 2)),
+    date_labels = "%Y"
+  ) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  labs(
+    title = 
+      "Are you in favor of the death penalty for a person convicted of murder?",
+    x = "Year",
+    y = "Percentage in favor of those with an opinion",
+    caption = "Source: Gallup"
+  )
+```
+
+## 3. SIGNIFICANCE TESTING
+
+> Statistical significance is conventionally defined as a $p$-value less than 0.05, relative to some *null hypothesis* or prespecified value that would indicate no effect present, as discussed below in the context of hypothesis testing. For fitted regressions, this roughly corresponds to coefficient estimates being labeled as statistically significant if they are at least two standard errors from zero, or not statistically significant otherwise. (p. 57, *emphasis* in the original
+
+```{r}
+n <- 20
+y <- 8
+
+# the estimated probability
+(p <- y / n)
+
+# the standard error
+(se <- sqrt(p * (1 - p) / n))
+
+# Not significant because .5 (the expected value, NH) is within the border. 
+p + c(-2 * se, 2 * se)
+```
+
+Let say we have an experiment on right handed persons go sitting in the train on the right sight. The hypothesis test is based on a *test statistic* that summarizes the deviation of the data from what would be expected under the null hypothesis. The conventional test statistic in this sort of problem is the absolute value of the $t$-score. It is all summarized in $p$-value. The confidence interval is often more interesting than the $p$-value, because it gives a range of plausible values for the parameter of interest, rather than just a binary decision about whether the parameter is different from zero.
+
+Open some libraries
+
+```{r}
+library(broom)
+library(rstanarm)
+library(brms)
+library(bayesplot)
+
+```
+
+Dataset
+
+I used this information [here](https://www.flutterbys.com.au/stats/tut/tut6.2b.html#MCMCgraphicalSummariestab-5)
+
+```{r}
+set.seed(1)
+nA <- 60                        #sample size from Population A
+nB <- 40                        #sample size from Population B
+muA <- 105                      #population mean of Population A
+muB <- 77.5                     #population mean of Population B
+sigma <- 3                      #standard deviation of both populations (equally varied)
+yA <- rnorm(nA, muA, sigma)     #Population A sample
+yB <- rnorm(nB, muB, sigma)     #Population B sample
+y <- c(yA, yB)                  #combined dataset
+x <- factor(rep(c("A", "B"), c(nA, nB)))  #categorical listing of the populations
+xn <- as.numeric(x)  #numerical version of the population category for means parameterization. 
+# Should not start at 0.
+my_data <- data.frame(y, x, xn)  # dataset
+head(my_data)
+```
+:::{.panel-tabset}
+## Traditional approach
+
+Use ttest
+
+```{r}
+t.test(y ~ x, data = my_data)
+```
+
+Use broom
+
+```{r}
+lm(y ~ x, data = my_data) |>
+  tidy()
+```
+
+Plot it!
+
+```{r}
+ggplot(my_data, aes(x = x, y = y)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, height = 0) +
+  labs(
+    title = "Boxplot of the two groups",
+    x = "Group",
+    y = "y"
+  )
+```
+
+## Bayesian approach: use `rstanarm`
+
+```{r}
+data_rstanarm<-stan_glm(y ~ x, data = my_data, family = gaussian())
+
+```
+
+```{r}
+print(data_rstanarm)
+```
+
+```{r}
+summary(data_rstanarm)
+```
+
+```{r}
+posterior_interval(data_rstanarm)
+```
+
+Probability statements are possible
+
+```{r}
+mcmc = as.matrix(data_rstanarm)
+# Percentage change (relative to Group A)
+ES = 100 * mcmc[, "xB"]/mcmc[, "(Intercept)"]
+hist(ES)
+```
+
+Probability that the effect is greater than 10% (a decline of \>10%)
+
+```{r}
+sum(-1 * ES > 10)/length(ES)
+```
+
+Probability that the effect is greater than 25% (a decline of \>25%)
+
+```{r}
+sum(-1 * ES > 25)/length(ES)
+```
+
+
+## Bayesian approach: use `brms`
+
+```{r}
+data_brms <- brm(y ~ x, data = my_data, family = gaussian())
+
+```
+
+```{r}
+print(data_brms)
+```
+
+```{r}
+summary(data_brms)
+```
+
+```{r}
+
+mcmc = as.matrix(data_brms)
+# Percentage change (relative to Group A)
+ES = 100 * mcmc[, "b_xB"]/mcmc[, "b_Intercept"]
+hist(ES)
+```
+
+Probability that the effect is greater than 10% (a decline of \>10%)
+
+```{r}
+sum(-1 * ES > 10)/length(ES)
+```
+
+Probability that the effect is greater than 25% (a decline of \>25%)
+
+```{r}
+sum(-1 * ES > 25)/length(ES)
+```
+
+:::
 
