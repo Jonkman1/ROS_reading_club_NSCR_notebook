@@ -95,7 +95,7 @@ Bayesian methods can reduce now-common pattern of the researchers getting jerked
 
 ### 1. ESTIMATION
 
-Set the true data-generating parameters (e.g mean 175 cm and sd=6 cm)
+Set the true data-generating parameters (e.g mean 175 cm and sd=6 cm). Simulate 1000 random samples from the sampling distribution. The estimate of the mean is 175/1000=0.175 and the standard error is $\sqrt{0.175(1-0.175)/1000}$.
 
 ```{r load-packages, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -111,7 +111,8 @@ estimate
 se
 ```
 
-This is figure 4.2 on page 52 of the ROS-book.
+This is figure 4.2 on page 52 of the ROS-book, (but for persons with $\mu$=175 and $\sigma$=6 and CI=95%). 
+
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 library(tidyverse)
@@ -315,7 +316,7 @@ death_penalty %>%
 
 ## 3. SIGNIFICANCE TESTING
 
-> Statistical significance is conventionally defined as a $p$-value less than 0.05, relative to some *null hypothesis* or prespecified value that would indicate no effect present, as discussed below in the context of hypothesis testing. For fitted regressions, this roughly corresponds to coefficient estimates being labeled as statistically significant if they are at least two standard errors from zero, or not statistically significant otherwise. (p. 57, *emphasis* in the original
+> Statistical significance is conventionally defined as a $p$-value less than 0.05, relative to some *null hypothesis* or prespecified value that would indicate no effect present, as discussed below in the context of hypothesis testing. For fitted regressions, this roughly corresponds to coefficient estimates being labeled as statistically significant if they are at least two standard errors from zero, or not statistically significant otherwise. 
 
 ```{r}
 n <- 20
@@ -360,6 +361,7 @@ xn <- as.numeric(x)  #numerical version of the population category for means par
 # Should not start at 0.
 my_data <- data.frame(y, x, xn)  # dataset
 head(my_data)
+View(my_data)
 ```
 :::{.panel-tabset}
 ## Traditional approach
